@@ -2,8 +2,6 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import * as z from "zod";
-
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -16,23 +14,23 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
-const formSchema = z.object({
-  collectionName: z.string().min(2, {
-    message: "Collection name must be at least 2 characters.",
-  }),
-});
+import { collectionSchema } from "@/lib/validations";
+import { CollectionSchemaType } from "@/lib/validations";
+import { useStateAction } from "next-safe-action/stateful-hooks";
+import { createCollection } from "@/action";
 
 export function CollectionNameForm() {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const { execute, status } = useStateAction(createCollection);
+
+  const form = useForm<CollectionSchemaType>({
+    resolver: zodResolver(collectionSchema),
     defaultValues: {
       collectionName: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: CollectionSchemaType) {
+    await execute(values);
   }
 
   return (
@@ -59,8 +57,12 @@ export function CollectionNameForm() {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full">
-              Create Collection
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={status === "executing"}
+            >
+              {status === "executing" ? "Creating..." : "Create Collection"}
             </Button>
           </form>
         </Form>
