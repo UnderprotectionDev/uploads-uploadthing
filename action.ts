@@ -12,13 +12,19 @@ export const createCollection = actionClient
     handleValidationErrorsShape: async (ve) =>
       flattenValidationErrors(ve).fieldErrors,
   })
-  .bindArgsSchemas<[avatarUrl: z.ZodString]>([z.string().url()])
-  .stateAction(async ({ parsedInput, bindArgsParsedInputs: [avatarUrl] }) => {
-    const { collectionName } = parsedInput;
-    await prisma.collection.create({
-      data: {
-        collectionName,
-        avatarUrl: avatarUrl ?? "",
-      },
-    });
-  });
+  .bindArgsSchemas<
+    [avatarUrl: z.ZodString, galleryUrls: z.ZodArray<z.ZodString>]
+  >([z.string().url(), z.array(z.string().url())])
+  .stateAction(
+    async ({ parsedInput, bindArgsParsedInputs: [avatarUrl, galleryUrls] }) => {
+      const { collectionName } = parsedInput;
+
+      await prisma.collection.create({
+        data: {
+          collectionName,
+          avatarUrl: avatarUrl ?? "",
+          galleryUrl: galleryUrls,
+        },
+      });
+    }
+  );

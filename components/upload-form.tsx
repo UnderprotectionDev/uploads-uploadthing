@@ -24,10 +24,12 @@ import { UploadDropzone } from "@/utils/uploadthing";
 
 export function CollectionNameForm() {
   const [avatarImage, setAvatarImage] = useState<string | undefined>(undefined);
+  const [galleryImages, setGalleryImages] = useState<string[]>([]);
 
   const createCollectionWithBind = createCollection.bind(
     null,
-    avatarImage ?? ""
+    avatarImage ?? "",
+    galleryImages
   );
 
   const { execute, status } = useStateAction(createCollectionWithBind);
@@ -71,6 +73,16 @@ export function CollectionNameForm() {
               endpoint="avatarUploader"
               onClientUploadComplete={(res) => {
                 setAvatarImage(res[0].url);
+                toast.success("Collection created successfully.");
+              }}
+              onUploadError={() => {
+                toast.error("Something went wrong.");
+              }}
+            />
+            <UploadDropzone
+              endpoint="galleryUploader"
+              onClientUploadComplete={(res) => {
+                setGalleryImages(res.map((r) => r.url));
                 toast.success("Collection created successfully.");
               }}
               onUploadError={() => {
