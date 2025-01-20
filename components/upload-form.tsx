@@ -23,8 +23,9 @@ import { useState } from "react";
 import { UploadDropzone } from "@/utils/uploadthing";
 import { Label } from "./ui/label";
 import Image from "next/image";
+import { TrashIcon } from "lucide-react";
 
-export function CollectionNameForm() {
+export function UploadForm() {
   const [avatarImage, setAvatarImage] = useState<string | undefined>(undefined);
   const [galleryImages, setGalleryImages] = useState<string[]>([]);
 
@@ -46,6 +47,10 @@ export function CollectionNameForm() {
   async function onSubmit(values: CollectionSchemaType) {
     await execute(values);
   }
+
+  const handleRemoveAvatar = () => {
+    setAvatarImage(undefined);
+  };
 
   return (
     <Card className="w-full max-w-2xl mx-auto">
@@ -81,13 +86,23 @@ export function CollectionNameForm() {
             <div className="space-y-4">
               <Label className="text-base">Avatar</Label>
               {avatarImage ? (
-                <Image
-                  src={avatarImage}
-                  alt="Uploaded Image"
-                  width={200}
-                  height={200}
-                  className="size-[200px] object-cover rounded-full"
-                />
+                <div className="relative inline-block">
+                  <Image
+                    src={avatarImage}
+                    alt="Uploaded Image"
+                    width={200}
+                    height={200}
+                    className="size-[200px] object-cover rounded-full"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleRemoveAvatar}
+                    className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                    aria-label="Remove Avatar"
+                  >
+                    <TrashIcon size={16} />
+                  </button>
+                </div>
               ) : (
                 <div>
                   <UploadDropzone
@@ -99,24 +114,37 @@ export function CollectionNameForm() {
                     onUploadError={() => {
                       toast.error("Avatar upload failed.");
                     }}
-                    className="mt-2"
+                    className="ut-button:bg-black ut-button:text-white ut-button:hover:bg-gray-800 ut-label:text-black ut-allowed-content:text-black ut-allowed-content:text-sm mt-2"
                   />
                 </div>
               )}
 
               <div>
-                <Label className="text-base">Gallery</Label>
+                <div className="flex justify-between items-center mb-2">
+                  <Label className="text-base">Gallery</Label>
+                  {galleryImages.length > 0 && (
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      size="sm"
+                      onClick={() => setGalleryImages([])}
+                    >
+                      Clear All Images
+                    </Button>
+                  )}
+                </div>
                 {galleryImages.length > 0 ? (
                   <div className="grid grid-cols-2 gap-4">
                     {galleryImages.map((image) => (
-                      <Image
-                        key={image}
-                        src={image}
-                        alt="Uploaded Image"
-                        width={200}
-                        height={200}
-                        className="size-[200px] object-cover rounded-lg"
-                      />
+                      <div key={image} className="relative inline-block">
+                        <Image
+                          src={image}
+                          alt="Uploaded Image"
+                          width={200}
+                          height={200}
+                          className="size-[200px] object-cover rounded-lg"
+                        />
+                      </div>
                     ))}
                   </div>
                 ) : (
@@ -129,7 +157,7 @@ export function CollectionNameForm() {
                     onUploadError={() => {
                       toast.error("Gallery upload failed.");
                     }}
-                    className="mt-2"
+                    className="ut-button:bg-black ut-button:text-white ut-button:hover:bg-gray-800 ut-label:text-black ut-allowed-content:text-black ut-allowed-content:text-sm mt-2"
                   />
                 )}
               </div>
