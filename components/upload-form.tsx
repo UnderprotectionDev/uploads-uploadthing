@@ -18,8 +18,11 @@ import { collectionSchema } from "@/lib/validations";
 import { CollectionSchemaType } from "@/lib/validations";
 import { useStateAction } from "next-safe-action/stateful-hooks";
 import { createCollection } from "@/action";
+import { toast } from "sonner";
+import { useState } from "react";
 
 export function CollectionNameForm() {
+  const [avatarImage, setAvatarImage] = useState<string | undefined>(undefined);
   const { execute, status } = useStateAction(createCollection);
 
   const form = useForm<CollectionSchemaType>({
@@ -56,6 +59,16 @@ export function CollectionNameForm() {
                   <FormMessage />
                 </FormItem>
               )}
+            />
+            <UploadDropzone
+              endpoint="avatarUploader"
+              onClientUploadComplete={(res) => {
+                setAvatarImage(res[0].url);
+                toast.success("Collection created successfully.");
+              }}
+              onUploadError={() => {
+                toast.error("Something went wrong.");
+              }}
             />
             <Button
               type="submit"
