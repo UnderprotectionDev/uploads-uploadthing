@@ -20,10 +20,17 @@ import { useStateAction } from "next-safe-action/stateful-hooks";
 import { createCollection } from "@/action";
 import { toast } from "sonner";
 import { useState } from "react";
+import { UploadDropzone } from "@/utils/uploadthing";
 
 export function CollectionNameForm() {
   const [avatarImage, setAvatarImage] = useState<string | undefined>(undefined);
-  const { execute, status } = useStateAction(createCollection);
+
+  const createCollectionWithBind = createCollection.bind(
+    null,
+    avatarImage ?? ""
+  );
+
+  const { execute, status } = useStateAction(createCollectionWithBind);
 
   const form = useForm<CollectionSchemaType>({
     resolver: zodResolver(collectionSchema),
