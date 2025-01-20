@@ -21,6 +21,8 @@ import { createCollection } from "@/action";
 import { toast } from "sonner";
 import { useState } from "react";
 import { UploadDropzone } from "@/utils/uploadthing";
+import { Label } from "./ui/label";
+import Image from "next/image";
 
 export function CollectionNameForm() {
   const [avatarImage, setAvatarImage] = useState<string | undefined>(undefined);
@@ -46,21 +48,27 @@ export function CollectionNameForm() {
   }
 
   return (
-    <Card className="w-full">
-      <CardHeader>
-        <CardTitle>Create New Collection</CardTitle>
+    <Card className="w-full max-w-2xl mx-auto">
+      <CardHeader className="text-center">
+        <CardTitle className="text-2xl font-bold">
+          Create New Collection
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
               control={form.control}
               name="collectionName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Collection Name</FormLabel>
+                  <FormLabel className="text-base">Collection Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="My Awesome Collection" {...field} />
+                    <Input
+                      placeholder="My Awesome Collection"
+                      className="w-full"
+                      {...field}
+                    />
                   </FormControl>
                   <FormDescription>
                     Enter a name for your new collection.
@@ -69,26 +77,64 @@ export function CollectionNameForm() {
                 </FormItem>
               )}
             />
-            <UploadDropzone
-              endpoint="avatarUploader"
-              onClientUploadComplete={(res) => {
-                setAvatarImage(res[0].url);
-                toast.success("Collection created successfully.");
-              }}
-              onUploadError={() => {
-                toast.error("Something went wrong.");
-              }}
-            />
-            <UploadDropzone
-              endpoint="galleryUploader"
-              onClientUploadComplete={(res) => {
-                setGalleryImages(res.map((r) => r.url));
-                toast.success("Collection created successfully.");
-              }}
-              onUploadError={() => {
-                toast.error("Something went wrong.");
-              }}
-            />
+
+            <div className="space-y-4">
+              <Label className="text-base">Avatar</Label>
+              {avatarImage ? (
+                <Image
+                  src={avatarImage}
+                  alt="Uploaded Image"
+                  width={200}
+                  height={200}
+                  className="size-[200px] object-cover rounded-full"
+                />
+              ) : (
+                <div>
+                  <UploadDropzone
+                    endpoint="avatarUploader"
+                    onClientUploadComplete={(res) => {
+                      setAvatarImage(res[0].url);
+                      toast.success("Avatar uploaded successfully.");
+                    }}
+                    onUploadError={() => {
+                      toast.error("Avatar upload failed.");
+                    }}
+                    className="mt-2"
+                  />
+                </div>
+              )}
+
+              <div>
+                <Label className="text-base">Gallery</Label>
+                {galleryImages.length > 0 ? (
+                  <div className="grid grid-cols-2 gap-4">
+                    {galleryImages.map((image) => (
+                      <Image
+                        key={image}
+                        src={image}
+                        alt="Uploaded Image"
+                        width={200}
+                        height={200}
+                        className="size-[200px] object-cover rounded-lg"
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <UploadDropzone
+                    endpoint="galleryUploader"
+                    onClientUploadComplete={(res) => {
+                      setGalleryImages(res.map((r) => r.url));
+                      toast.success("Gallery images uploaded successfully.");
+                    }}
+                    onUploadError={() => {
+                      toast.error("Gallery upload failed.");
+                    }}
+                    className="mt-2"
+                  />
+                )}
+              </div>
+            </div>
+
             <Button
               type="submit"
               className="w-full"
