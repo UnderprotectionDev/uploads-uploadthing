@@ -1,36 +1,100 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
 
-## Getting Started
+# UploadThing File Upload Demo 📤
 
-First, run the development server:
+A modern file upload application built with Next.js and UploadThing, featuring a clean UI and seamless file management.
+
+[![Next.js](https://img.shields.io/badge/Next.js-black?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![Shadcn/ui](https://img.shields.io/badge/Shadcn/ui-000000?style=for-the-badge&logo=shadcnui&logoColor=white)](https://ui.shadcn.com/)
+[![Zod](https://img.shields.io/badge/Zod-0056A1?style=for-the-badge&logo=zod&logoColor=white)](https://zod.dev/)
+[![UploadThing](https://img.shields.io/badge/UploadThing-FF0000?style=for-the-badge&logo=upload&logoColor=white)](https://uploadthing.com/)
+[![Prisma](https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white)](https://www.prisma.io/)
+[![Postgres](https://img.shields.io/badge/Postgres-336791?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+
+</div>
+
+## ✨ Features
+
+<div align="center">
+
+| Feature                 | Description                                   |
+| ----------------------- | --------------------------------------------- |
+| 🎨 **Modern UI**        | Beautiful interface with Shadcn/ui components |
+| 📤 **Drag & Drop**      | Easy drag and drop file uploads               |
+| 🖼️ **Image Preview**    | Built-in image preview and management         |
+| 📱 **Responsive**       | Fully responsive design for all devices       |
+| ⚡ **Fast Upload**      | Quick uploads powered by UploadThing          |
+| 🔒 **Secure Handling**  | Secure and reliable file handling             |
+| 🗄️ **Database Storage** | Efficient storage with Prisma                 |
+
+</div>
+
+## 🚀 Quick Start
 
 ```bash
+# Clone the repository
+git clone https://github.com/yourusername/uploads-uploadthing.git
+
+# Navigate to the project
+cd uploads-uploadthing
+
+# Install dependencies
+npm install
+
+# Set up environment variables
+cp .env
+
+# Set up the database
+npx prisma generate
+npx prisma db push
+
+# Start development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit [http://localhost:3000](http://localhost:3000) to see your application
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠️ Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+<details>
+<summary>Click to expand tech stack details</summary>
 
-## Learn More
+- **Framework**: [Next.js 15](https://nextjs.org/)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **UI Components**: [shadcn/ui](https://ui.shadcn.com/)
+- **File Upload**: [UploadThing](https://uploadthing.com/)
+- **Database**: [Neon](https://neon.tech/)
+- **Database ORM**: [Prisma](https://www.prisma.io/)
+- **Form Handling**: [React Hook Form](https://react-hook-form.com/)
+- **Type Safe Server Actions**: [Next Safe Action](https://next-safe-action.dev/)
+- **Validation**: [Zod](https://zod.dev/)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **Toast Notifications**: [Sonner](https://sonner.emilkowal.ski/)
 
-To learn more about Next.js, take a look at the following resources:
+</details>
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📸 Screenshots
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+<div align="center">
 
-## Deploy on Vercel
+### Upload Form
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+![Upload Form](/public/upload-form.png)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Upload Form Completed
+
+![Upload Form Completed](/public/upload-form-completed.png)
+
+</div>
+
+## 🔐 Environment Variables
+
+Create a `.env` file in the root directory with the following variables:
+
+```env
+UPLOADTHING_TOKEN=
+DATABASE_URL=""
+```
