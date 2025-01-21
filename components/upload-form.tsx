@@ -35,7 +35,13 @@ export function UploadForm() {
     galleryImages
   );
 
-  const { execute, status } = useStateAction(createCollectionWithBind);
+  const { execute, status } = useStateAction(createCollectionWithBind, {
+    onSuccess: () => {
+      form.reset();
+      setAvatarImage(undefined);
+      setGalleryImages([]);
+    },
+  });
 
   const form = useForm<CollectionSchemaType>({
     resolver: zodResolver(collectionSchema),
@@ -86,22 +92,24 @@ export function UploadForm() {
             <div className="space-y-4">
               <Label className="text-base">Avatar</Label>
               {avatarImage ? (
-                <div className="relative inline-block">
-                  <Image
-                    src={avatarImage}
-                    alt="Uploaded Image"
-                    width={200}
-                    height={200}
-                    className="size-[200px] object-cover rounded-full"
-                  />
-                  <button
-                    type="button"
-                    onClick={handleRemoveAvatar}
-                    className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
-                    aria-label="Remove Avatar"
-                  >
-                    <TrashIcon size={16} />
-                  </button>
+                <div className="flex justify-center mt-2">
+                  <div className="relative">
+                    <Image
+                      src={avatarImage}
+                      alt="Uploaded Image"
+                      width={200}
+                      height={200}
+                      className="size-[200px] object-cover rounded-full"
+                    />
+                    <button
+                      type="button"
+                      onClick={handleRemoveAvatar}
+                      className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                      aria-label="Remove Avatar"
+                    >
+                      <TrashIcon size={16} />
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <div>
